@@ -1,0 +1,203 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Geist Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src:
+    url('@fontsource-variable/geist/files/geist-latin-wght-normal.woff2')
+    format('woff2');
+}
+
+@theme {
+  /* ── Surfaces ───────────────────────────────────────────── */
+  --color-void: #050506;
+  --color-surface: #0a0a0e;
+  --color-elevated: #101017;
+  --color-foreground: #f4f4f5;
+  --color-muted: #8a8a96;
+  --color-faint: #55555f;
+  --color-border: rgb(255 255 255 / 0.07);
+  --color-border-strong: rgb(255 255 255 / 0.14);
+
+  /* ── Accents: one disciplined aurora pair ──────────────── */
+  --color-accent: #7c5cff;
+  --color-accent-2: #22d3ee;
+  --color-accent-3: #c084fc;
+
+  --font-sans:
+    'Geist Variable', 'Geist', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    monospace;
+
+  /* ── Editorial type scale ──────────────────────────────── */
+  --text-display: clamp(3.5rem, 15vw, 11rem);
+  --text-hero: clamp(2.75rem, 10vw, 7.5rem);
+  --text-section: clamp(2.25rem, 6.5vw, 4.5rem);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-drift: drift 22s ease-in-out infinite;
+  --animate-shimmer: shimmer 6s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -3%, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-3%, 4%, 0) scale(0.95);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
+
+@layer base {
+  /* Applied by <Cursor /> only once the custom pointer is confirmed running, so
+     the native cursor is never removed without a replacement. */
+  .cursor-none,
+  .cursor-none * {
+    cursor: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  html,
+  body {
+    /* clip (not hidden) so the body never becomes a scroll container —
+       that would fight Lenis and cause scroll to snap back to top */
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-void font-sans text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgb(124 92 255 / 0.4);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050506;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1c1c24;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a2a35;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@utility text-aurora {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-accent) 0%,
+    var(--color-accent-3) 28%,
+    var(--color-accent-2) 55%,
+    var(--color-accent) 78%,
+    var(--color-accent-3) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-shimmer);
+}
+
+@utility label-xs {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Hairline rule used as a structural divider across sections */
+@utility rule {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-border-strong) 20%,
+    var(--color-border-strong) 80%,
+    transparent
+  );
+}
+
+/* Hero glyph. --g is written directly from the pointer handler (no re-render)
+   and drives both the colour lift and the violet bloom. At rest it sits on
+   --color-muted so the name is always legible; proximity takes it to full
+   foreground. */
+@utility hero-glyph {
+  color: color-mix(
+    in oklab,
+    #aeb0bd,
+    var(--color-foreground) calc(var(--g, 0) * 100%)
+  );
+  text-shadow: 0 0 calc(var(--g, 0) * 34px) rgb(124 92 255 / calc(var(--g, 0) * 0.85));
+  transition: color 160ms linear;
+}
+
+/* Frosted panel base */
+@utility panel {
+  background:
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.045) 0%,
+      rgb(255 255 255 / 0.012) 100%
+    ),
+    var(--color-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(20px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
