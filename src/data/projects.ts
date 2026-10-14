@@ -16,6 +16,12 @@ export type Project = {
   /** Which live visual the panel shows. Defaults to the terminal card. */
   visual?: 'graph' | 'terminal'
   hue: string
+  /**
+   * Explicit colour stops for the section's ambient wash. Kept separate from
+   * `hue` (a Tailwind class string) because the background needs real colour
+   * values it can interpolate, not utility classes.
+   */
+  glow: [string, string, string]
 }
 
 export const projects: Project[] = [
@@ -71,6 +77,7 @@ export const projects: Project[] = [
       '✓ run complete — $0.0173 actual vs $0.0412 forecast',
     ],
     hue: 'from-[#7c5cff] via-[#a855f7] to-[#22d3ee]',
+    glow: ['#7c5cff', '#a855f7', '#22d3ee'],
   },
   {
     slug: 'sho-vee',
@@ -121,6 +128,7 @@ export const projects: Project[] = [
       '  /admin         permission-gated, never in nav',
     ],
     hue: 'from-[#22d3ee] via-[#38bdf8] to-[#7c5cff]',
+    glow: ['#22d3ee', '#38bdf8', '#7c5cff'],
   },
   {
     slug: 'techmotion',
@@ -158,6 +166,7 @@ export const projects: Project[] = [
       '✓ deterministic — checksum 9f2a1c matches prior run',
     ],
     hue: 'from-[#f472b6] via-[#c084fc] to-[#7c5cff]',
+    glow: ['#c084fc', '#f472b6', '#7c5cff'],
   },
   {
     slug: 'smart-parking',
@@ -194,6 +203,7 @@ export const projects: Project[] = [
       '  → { "bay": "A-14", "free_from": "18:20", "confidence": 0.94 }',
     ],
     hue: 'from-[#34d399] via-[#22d3ee] to-[#7c5cff]',
+    glow: ['#34d399', '#22d3ee', '#7c5cff'],
   },
 ]
 

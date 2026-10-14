@@ -137,7 +137,7 @@ export default function Hero() {
         <div className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
           <Magnetic
             href="#work"
-            className="hero-cta label-xs flex w-full items-center justify-center gap-2 rounded-full border border-border-strong bg-white/[0.05] px-7 py-3.5 text-foreground backdrop-blur-sm transition-colors hover:bg-white/[0.11] sm:w-auto"
+            className="hero-cta label-xs flex w-full items-center justify-center gap-2 rounded-full border border-border-strong bg-white/[0.05] px-7 py-3.5 text-foreground transition-colors hover:bg-white/[0.11] sm:w-auto"
           >
             See the work
             <ArrowDown className="h-3.5 w-3.5" />

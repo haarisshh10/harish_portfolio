@@ -62,7 +62,7 @@ export default function Navbar() {
           <nav
             className={`flex items-center justify-between rounded-full py-2.5 pl-6 pr-2.5 transition-all duration-500 ${
               scrolled
-                ? 'border border-border bg-void/70 shadow-[0_16px_50px_-12px_rgba(0,0,0,0.9)] backdrop-blur-xl'
+                ? 'border border-border bg-void/85 shadow-[0_16px_50px_-12px_rgba(0,0,0,0.9)]'
                 : 'border border-transparent'
             }`}
           >

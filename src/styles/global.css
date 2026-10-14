@@ -189,7 +189,7 @@
     ),
     var(--color-surface);
   border: 1px solid var(--color-border);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
 }
 
 @media (prefers-reduced-motion: reduce) {
