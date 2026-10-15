@@ -168,43 +168,6 @@ export const projects: Project[] = [
     hue: 'from-[#f472b6] via-[#c084fc] to-[#7c5cff]',
     glow: ['#c084fc', '#f472b6', '#7c5cff'],
   },
-  {
-    slug: 'smart-parking',
-    index: '04',
-    title: 'Smart Parking',
-    kicker: 'Computer Vision · Flask',
-    year: '2024',
-    repo: 'https://github.com/haarisshh10/Ai-CAR-PARKING-',
-    summary:
-      'An OpenCV pipeline that answers the only question that matters in a city car park: is a bay free right now, and for how long?',
-    problem:
-      'Finding parking availability for a given window is tedious in dense urban areas. Rather than checking an app, the system reads the lot itself and keeps historical availability in MySQL so you can query forward in time.',
-    highlights: [
-      'OpenCV detection over live camera frames to classify bay occupancy',
-      'Flask REST API over a MySQL schema for bays, slots and availability windows',
-      'Time-window availability queries instead of a binary open/closed flag',
-      'Built as a smart-city PoC for urban parking planning',
-    ],
-    stack: ['Python', 'OpenCV', 'Flask', 'MySQL'],
-    metrics: [
-      { label: 'Vision', value: 'OpenCV' },
-      { label: 'API', value: 'Flask' },
-      { label: 'Store', value: 'MySQL' },
-      { label: 'Domain', value: 'Smart city' },
-    ],
-    demo: [
-      '$ python detector.py --camera lot_a --interval 2',
-      '',
-      '  frame 0142  ▸ bays 48 · free 11 · occupied 37',
-      '  frame 0143  ▸ bays 48 · free 11 · occupied 37',
-      '  frame 0144  ▸ bays 48 · free 12 · occupied 36',
-      '',
-      'POST /api/availability?from=18:00&to=20:30',
-      '  → { "bay": "A-14", "free_from": "18:20", "confidence": 0.94 }',
-    ],
-    hue: 'from-[#34d399] via-[#22d3ee] to-[#7c5cff]',
-    glow: ['#34d399', '#22d3ee', '#7c5cff'],
-  },
 ]
 
 export const stackMarquee = [

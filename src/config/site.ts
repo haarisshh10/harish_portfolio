@@ -17,7 +17,7 @@ export const site = {
 
   links: {
     github: 'https://github.com/haarisshh10',
-    linkedin: 'https://linkedin.com/in/harishk-6069b5250',
+    linkedin: 'https://www.linkedin.com/in/harish-kukkala-6069b5250',
   },
 
   resumeUrl: '/resume.pdf',

@@ -3,9 +3,12 @@ import { gsap } from '../../animations/gsap'
 import { onNoMotionPreference, REVEAL } from '../../animations/motion'
 import { capabilities, stats } from '../../data/projects'
 import { site } from '../../config/site'
+import PortraitCard from './PortraitCard'
+import ScrambleText from '../ui/ScrambleText'
 
 export default function About() {
   const rootRef = useRef<HTMLElement>(null)
+  const railRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const root = rootRef.current
@@ -21,6 +24,26 @@ export default function About() {
           ease: 'expo.out',
           scrollTrigger: { trigger: root, ...REVEAL },
         })
+
+        // The capability rail draws itself as the list scrolls past, so the
+        // section reads as one connected thread rather than a stack of cards.
+        const rail = railRef.current
+        if (rail) {
+          gsap.fromTo(
+            rail,
+            { scaleY: 0 },
+            {
+              scaleY: 1,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: rail.parentElement,
+                start: 'top 72%',
+                end: 'bottom 72%',
+                scrub: 0.5,
+              },
+            },
+          )
+        }
 
         root.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
           const target = Number(el.dataset.count)
@@ -53,23 +76,7 @@ export default function About() {
             can stay a single idea. */}
         <div className="ab-reveal mb-16 flex flex-col gap-8 border-b border-border pb-12 sm:flex-row sm:items-center">
           {site.avatar && (
-            <div className="relative w-44 shrink-0 self-start sm:w-60">
-              <div className="overflow-hidden rounded-2xl border border-border-strong">
-                <img
-                  src={site.avatar}
-                  alt={`${site.name}, ${site.role}`}
-                  width={240}
-                  height={320}
-                  className="aspect-[3/4] w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-accent via-accent-3 to-accent-2"
-              />
-            </div>
+            <PortraitCard src={site.avatar} alt={`${site.name}, ${site.role}`} />
           )}
 
           <div>
@@ -106,12 +113,16 @@ export default function About() {
 
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
+            {/* Headline decodes into place on scroll. */}
             <h2 className="ab-reveal text-balance text-[clamp(2.25rem,5.5vw,4rem)] font-bold leading-[0.95] tracking-[-0.045em]">
-              Started building
-              <span className="text-aurora"> full-stack.</span>
-              <br />
-              Now building
-              <span className="text-aurora"> agents.</span>
+              <ScrambleText text="Started building" className="block" />
+              <span className="text-aurora block">
+                <ScrambleText text="full-stack." delay={0.12} />
+              </span>
+              <ScrambleText text="Now building" delay={0.24} className="block" />
+              <span className="text-aurora block">
+                <ScrambleText text="agents." delay={0.36} />
+              </span>
             </h2>
 
             <div className="ab-reveal mt-8 space-y-5 text-[15px] leading-relaxed text-muted">
@@ -135,24 +146,40 @@ export default function About() {
             </div>
           </div>
 
-          <div className="lg:col-span-7">
-            <ol className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border">
+          {/* Capabilities on a rail that draws as you scroll. */}
+          <div className="relative lg:col-span-7">
+            <span
+              aria-hidden="true"
+              className="absolute left-[15px] top-2 bottom-2 w-px origin-top bg-border md:left-[19px]"
+            />
+            <span
+              ref={railRef}
+              aria-hidden="true"
+              className="absolute left-[15px] top-2 bottom-2 w-px origin-top bg-gradient-to-b from-accent via-accent-3 to-accent-2 md:left-[19px]"
+              style={{ transform: 'scaleY(0)' }}
+            />
+
+            <ol className="relative space-y-4">
               {capabilities.map((cap, i) => (
-                <li key={cap.title} className="ab-reveal group relative bg-surface p-7 md:p-9">
-                  <span className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-gradient-to-b from-accent to-accent-2 transition-transform duration-700 group-hover:scale-y-100" />
-                  <div className="flex items-baseline gap-4">
-                    <span className="font-mono text-xs text-faint">0{i + 1}</span>
+                <li key={cap.title} className="ab-reveal group relative pl-12 md:pl-16">
+                  {/* Node marker on the rail. */}
+                  <span className="absolute left-0 top-6 grid h-[30px] w-[30px] place-items-center rounded-full border border-border bg-surface md:h-[38px] md:w-[38px]">
+                    <span className="font-mono text-[10px] text-faint transition-colors duration-300 group-hover:text-foreground">
+                      0{i + 1}
+                    </span>
+                  </span>
+
+                  <div className="rounded-2xl border border-border bg-surface p-7 transition-colors duration-300 group-hover:border-border-strong md:p-9">
                     <h3 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                       {cap.title}
                     </h3>
+                    <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted md:text-[15px]">
+                      {cap.body}
+                    </p>
                   </div>
-                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted md:text-[15px]">
-                    {cap.body}
-                  </p>
                 </li>
               ))}
             </ol>
-
           </div>
         </div>
 

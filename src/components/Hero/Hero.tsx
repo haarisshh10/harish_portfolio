@@ -112,7 +112,6 @@ export default function Hero() {
         <div className="hero-kicker mb-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
           <span className="label-xs text-accent-3">{site.role}</span>
           <span className="h-px w-8 bg-border-strong" />
-          <span className="label-xs text-muted">Varroc Connect</span>
           <span className="h-px w-8 bg-border-strong" />
           <span className="label-xs text-muted">{site.location}</span>
         </div>
